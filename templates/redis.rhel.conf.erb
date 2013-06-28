@@ -14,20 +14,20 @@
 
 # By default Redis does not run as a daemon. Use 'yes' if you need it.
 # Note that Redis will write a pid file in /var/run/redis.pid when daemonized.
-daemonize <%= conf_daemonize %>
+daemonize <%= @conf_daemonize %>
 
 # When running daemonized, Redis writes a pid file in /var/run/redis.pid by
 # default. You can specify a custom pid file location here.
-pidfile <%= conf_pidfile_real %>
+pidfile <%= @conf_pidfile_real %>
 
 # Accept connections on the specified port, default is 6379.
 # If port 0 is specified Redis will not listen on a TCP socket.
-port <%= conf_port %>
+port <%= @conf_port %>
 
 # If you want you can bind a single interface, if the bind option is not
 # specified all the interfaces will listen for incoming connections.
 #
-bind <%= conf_bind %>
+bind <%= @conf_bind %>
 
 # Specify the path for the unix socket that will be used to listen for
 # incoming connections. There is no default, so Redis will not listen
@@ -37,7 +37,7 @@ bind <%= conf_bind %>
 # unixsocketperm 755
 
 # Close the connection after a client is idle for N seconds (0 to disable)
-timeout <%= conf_timeout %>
+timeout <%= @conf_timeout %>
 
 # TCP keepalive.
 #
@@ -61,31 +61,31 @@ tcp-keepalive 0
 # verbose (many rarely useful info, but not a mess like the debug level)
 # notice (moderately verbose, what you want in production probably)
 # warning (only very important / critical messages are logged)
-loglevel <%= conf_loglevel %>
+loglevel <%= @conf_loglevel %>
 
 # Specify the log file name. Also 'stdout' can be used to force
 # Redis to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
-logfile <%= conf_logfile_real %>
+logfile <%= @conf_logfile_real %>
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
-<% if conf_syslog_enabled != 'UNSET' %>
-syslog-enabled <%= conf_syslog_enabled %>
+<% if @conf_syslog_enabled %>
+syslog-enabled <%= @conf_syslog_enabled %>
 <% else %>
 # syslog-enabled no
 <% end %>
 
 # Specify the syslog identity.
-<% if conf_syslog_ident != 'UNSET' %>
-syslog-ident <%= conf_syslog_ident %>
+<% if @conf_syslog_ident %>
+syslog-ident <%= @conf_syslog_ident %>
 <% else %>
 # syslog-ident redis
 <% end %>
 
 # Specify the syslog facility. Must be USER or between LOCAL0-LOCAL7.
-<% if conf_syslog_facility != 'UNSET' %>
-syslog-facility <%= conf_syslog_facility %>
+<% if @conf_syslog_facility %>
+syslog-facility <%= @conf_syslog_facility %>
 <% else %>
 # syslog-facility local0
 <% end %>
@@ -93,7 +93,7 @@ syslog-facility <%= conf_syslog_facility %>
 # Set the number of databases. The default database is DB 0, you can select
 # a different one on a per-connection basis using SELECT <dbid> where
 # dbid is a number between 0 and 'databases'-1
-databases <%= conf_databases %>
+databases <%= @conf_databases %>
 
 ################################ SNAPSHOTTING  #################################
 #
@@ -117,8 +117,8 @@ databases <%= conf_databases %>
 #
 #   save ""
 
-<% if conf_save != 'UNSET' %>
-save <%= conf_save %>
+<% if @conf_save %>
+save <%= @conf_save %>
 <% else %>
 save 900 1
 save 300 10
@@ -144,7 +144,7 @@ stop-writes-on-bgsave-error yes
 # For default that's set to 'yes' as it's almost always a win.
 # If you want to save some CPU in the saving child set it to 'no' but
 # the dataset will likely be bigger if you have compressible values or keys.
-rdbcompression <%= conf_rdbcompression %>
+rdbcompression <%= @conf_rdbcompression %>
 
 # Since version 5 of RDB a CRC64 checksum is placed at the end of the file.
 # This makes the format more resistant to corruption but there is a performance
@@ -156,7 +156,7 @@ rdbcompression <%= conf_rdbcompression %>
 rdbchecksum yes
 
 # The filename where to dump the DB
-dbfilename <%= conf_dbfilename %>
+dbfilename <%= @conf_dbfilename %>
 
 # The working directory.
 #
@@ -166,7 +166,7 @@ dbfilename <%= conf_dbfilename %>
 # The Append Only File will also be created inside this directory.
 # 
 # Note that you must specify a directory here, not a file name.
-dir <%= conf_dir %>
+dir <%= @conf_dir %>
 
 ################################# REPLICATION #################################
 
@@ -175,8 +175,8 @@ dir <%= conf_dir %>
 # so for example it is possible to configure the slave to save the DB with a
 # different interval, or to listen to another port, and so on.
 #
-<% if conf_slaveof != 'UNSET' %>
-slaveof <%= conf_slaveof %>
+<% if @conf_slaveof %>
+slaveof <%= @conf_slaveof %>
 <% else %>
 # slaveof <masterip> <masterport>
 <% end %>
@@ -186,8 +186,8 @@ slaveof <%= conf_slaveof %>
 # starting the replication synchronization process, otherwise the master will
 # refuse the slave request.
 #
-<% if conf_masterauth != 'UNSET' %>
-masterauth <%= conf_masterauth %>
+<% if @conf_masterauth %>
+masterauth <%= @conf_masterauth %>
 <% else %>
 # masterauth <master-password>
 <% end %>
@@ -203,7 +203,7 @@ masterauth <%= conf_masterauth %>
 #    an error "SYNC with master in progress" to all the kind of commands
 #    but to INFO and SLAVEOF.
 #
-slave-serve-stale-data <%= conf_slave_server_stale_data %>
+slave-serve-stale-data <%= @conf_slave_server_stale_data %>
 
 # You can configure a slave instance to accept writes or not. Writing against
 # a slave instance may be useful to store some ephemeral data (because data
@@ -225,7 +225,7 @@ slave-read-only yes
 # this interval with the repl_ping_slave_period option. The default value is 10
 # seconds.
 #
-repl-ping-slave-period <%= conf_repl_ping_slave_period %>
+repl-ping-slave-period <%= @conf_repl_ping_slave_period %>
 
 # The following option sets a timeout for both Bulk transfer I/O timeout and
 # master data or ping response timeout. The default value is 60 seconds.
@@ -234,7 +234,7 @@ repl-ping-slave-period <%= conf_repl_ping_slave_period %>
 # specified for repl-ping-slave-period otherwise a timeout will be detected
 # every time there is low traffic between the master and the slave.
 #
-repl-timeout <%= conf_repl_timeout %>
+repl-timeout <%= @conf_repl_timeout %>
 
 # Disable TCP_NODELAY on the slave socket after SYNC?
 #
@@ -279,8 +279,8 @@ slave-priority 100
 # 150k passwords per second against a good box. This means that you should
 # use a very strong password otherwise it will be very easy to break.
 #
-<% if conf_requirepass != 'UNSET' %>
-requirepass <%= conf_requirepass %>
+<% if @conf_requirepass %>
+requirepass <%= @conf_requirepass %>
 <% else %>
 # requirepass foobared
 <% end %>
@@ -316,8 +316,8 @@ requirepass <%= conf_requirepass %>
 # an error 'max number of clients reached'.
 #
 # maxclients 10000
-<% if conf_maxclients != 'UNSET' %>
-maxclients <%= conf_maxclients %>
+<% if @conf_maxclients %>
+maxclients <%= @conf_maxclients %>
 <% end %>
 
 # Don't use more memory than the specified amount of bytes.
@@ -344,8 +344,8 @@ maxclients <%= conf_maxclients %>
 # output buffers (but this is not needed if the policy is 'noeviction').
 #
 # maxmemory <bytes>
-<% if conf_maxmemory != 'UNSET' %>
-maxmemory <%= conf_maxmemory %>
+<% if @conf_maxmemory %>
+maxmemory <%= @conf_maxmemory %>
 <% end %>
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
@@ -370,8 +370,8 @@ maxmemory <%= conf_maxmemory %>
 # The default is:
 #
 # maxmemory-policy volatile-lru
-<% if conf_maxmemory_policy != 'UNSET' %>
-maxmemory-policy <%= conf_maxmemory_policy %>
+<% if @conf_maxmemory_policy %>
+maxmemory-policy <%= @conf_maxmemory_policy %>
 <% end %>
 
 # LRU and minimal TTL algorithms are not precise algorithms but approximated
@@ -381,8 +381,8 @@ maxmemory-policy <%= conf_maxmemory_policy %>
 # using the following configuration directive.
 #
 # maxmemory-samples 3
-<% if conf_maxmemory_samples != 'UNSET' %>
-maxmemory-samples <%= conf_maxmemory_samples %>
+<% if @conf_maxmemory_samples %>
+maxmemory-samples <%= @conf_maxmemory_samples %>
 <% end %>
 
 ############################## APPEND ONLY MODE ###############################
@@ -405,12 +405,12 @@ maxmemory-samples <%= conf_maxmemory_samples %>
 #
 # Please check http://redis.io/topics/persistence for more information.
 
-appendonly <%= conf_appendonly %>
+appendonly <%= @conf_appendonly %>
 
 # The name of the append only file (default: "appendonly.aof")
 # appendfilename appendonly.aof
-<% if conf_appendfilename != 'UNSET' %>
-appendfilename <%= conf_appendfilename %>
+<% if @conf_appendfilename %>
+appendfilename <%= @conf_appendfilename %>
 <% end %>
 
 # The fsync() call tells the Operating System to actually write data on disk
@@ -437,7 +437,7 @@ appendfilename <%= conf_appendfilename %>
 # If unsure, use "everysec".
 
 # appendfsync always
-appendfsync <%= conf_appendfsync %>
+appendfsync <%= @conf_appendfsync %>
 # appendfsync no
 
 # When the AOF fsync policy is set to always or everysec, and a background
@@ -458,7 +458,7 @@ appendfsync <%= conf_appendfsync %>
 # 
 # If you have latency problems turn this to "yes". Otherwise leave it as
 # "no" that is the safest pick from the point of view of durability.
-no-appendfsync-on-rewrite <%= conf_no_appendfsync_on_rewrite %>
+no-appendfsync-on-rewrite <%= @conf_no_appendfsync_on_rewrite %>
 
 # Automatic rewrite of the append only file.
 # Redis is able to automatically rewrite the log file implicitly calling
@@ -477,8 +477,8 @@ no-appendfsync-on-rewrite <%= conf_no_appendfsync_on_rewrite %>
 # Specify a percentage of zero in order to disable the automatic AOF
 # rewrite feature.
 
-auto-aof-rewrite-percentage <%= conf_auto_aof_rewrite_percentage %>
-auto-aof-rewrite-min-size <%= conf_auto_aof_rewrite_min_size %>
+auto-aof-rewrite-percentage <%= @conf_auto_aof_rewrite_percentage %>
+auto-aof-rewrite-min-size <%= @conf_auto_aof_rewrite_min_size %>
 
 ################################ LUA SCRIPTING  ###############################
 
@@ -516,38 +516,38 @@ lua-time-limit 5000
 # The following time is expressed in microseconds, so 1000000 is equivalent
 # to one second. Note that a negative number disables the slow log, while
 # a value of zero forces the logging of every command.
-slowlog-log-slower-than <%= conf_slowlog_log_slower_than %>
+slowlog-log-slower-than <%= @conf_slowlog_log_slower_than %>
 
 # There is no limit to this length. Just be aware that it will consume memory.
 # You can reclaim memory used by the slow log with SLOWLOG RESET.
-slowlog-max-len <%= conf_slowlog_max_len %>
+slowlog-max-len <%= @conf_slowlog_max_len %>
 
 ############################### ADVANCED CONFIG ###############################
 
 # Hashes are encoded using a memory efficient data structure when they have a
 # small number of entries, and the biggest entry does not exceed a given
 # threshold. These thresholds can be configured using the following directives.
-hash-max-ziplist-entries <%= conf_hash_max_zipmap_entries %>
-hash-max-ziplist-value <%= conf_hash_max_zipmap_value %>
+hash-max-ziplist-entries <%= @conf_hash_max_zipmap_entries %>
+hash-max-ziplist-value <%= @conf_hash_max_zipmap_value %>
 
 # Similarly to hashes, small lists are also encoded in a special way in order
 # to save a lot of space. The special representation is only used when
 # you are under the following limits:
-list-max-ziplist-entries <%= conf_list_max_ziplist_entries %>
-list-max-ziplist-value <%= conf_list_max_ziplist_value %>
+list-max-ziplist-entries <%= @conf_list_max_ziplist_entries %>
+list-max-ziplist-value <%= @conf_list_max_ziplist_value %>
 
 # Sets have a special encoding in just one case: when a set is composed
 # of just strings that happens to be integers in radix 10 in the range
 # of 64 bit signed integers.
 # The following configuration setting sets the limit in the size of the
 # set in order to use this special memory saving encoding.
-set-max-intset-entries <%= conf_set_max_intset_entries %>
+set-max-intset-entries <%= @conf_set_max_intset_entries %>
 
 # Similarly to hashes and lists, sorted sets are also specially encoded in
 # order to save a lot of space. This encoding is only used when the length and
 # elements of a sorted set are below the following limits:
-zset-max-ziplist-entries <%= conf_zset_max_ziplist_entries %>
-zset-max-ziplist-value <%= conf_zset_max_ziplist_value %>
+zset-max-ziplist-entries <%= @conf_zset_max_ziplist_entries %>
+zset-max-ziplist-value <%= @conf_zset_max_ziplist_value %>
 
 # Active rehashing uses 1 millisecond every 100 milliseconds of CPU time in
 # order to help rehashing the main Redis hash table (the one mapping top-level
@@ -567,7 +567,7 @@ zset-max-ziplist-value <%= conf_zset_max_ziplist_value %>
 #
 # use "activerehashing yes" if you don't have such hard requirements but
 # want to free memory asap when possible.
-activerehashing <%= conf_activerehashing %>
+activerehashing <%= @conf_activerehashing %>
 
 # The client output buffer limits can be used to force disconnection of clients
 # that are not reading data from the server fast enough for some reason (a
@@ -638,6 +638,6 @@ aof-rewrite-incremental-fsync yes
 #
 # include /path/to/local.conf
 # include /path/to/other.conf
-<% if conf_include != 'UNSET' %>
-include <%= conf_include %>
+<% if @conf_include %>
+include <%= @conf_include %>
 <% end %>

@@ -16,6 +16,7 @@ class redis::params {
     'centos', 'redhat', 'fedora': {
       $package       = 'redis'
       $service       = 'redis'
+      $bindir        = '/usr/local/bin'
       $conf          = '/etc/redis.conf'
       $conf_template = 'redis.rhel.conf.erb'
       $pidfile       = '/var/run/redis/redis.pid'
@@ -25,6 +26,7 @@ class redis::params {
     'ubuntu', 'debian': {
       $package       = 'redis-server'
       $service       = 'redis-server'
+      $bindir        = '/usr/local/bin'
       $conf          = '/etc/redis/redis.conf'
       $conf_template = 'redis.debian.conf.erb'
       $pidfile       = '/var/run/redis.pid'
