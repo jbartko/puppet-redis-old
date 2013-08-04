@@ -9,8 +9,8 @@
 . /etc/rc.d/init.d/functions
 
 name="redis-server"
-exec="<%= @bindir_real %>/$name"
-pidfile="<%= @conf_pidfile_real %>"
+exec="<%= @bindir %>/$name"
+pidfile="<%= @conf_pidfile %>"
 REDIS_CONFIG="/etc/redis.conf"
 
 [ -e /etc/sysconfig/redis ] && . /etc/sysconfig/redis
