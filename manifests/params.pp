@@ -12,8 +12,8 @@
 #
 class redis::params {
 
-  case $::operatingsystem {
-    'centos', 'redhat', 'fedora': {
+  case $::osfamily {
+    'RedHat': {
       $package       = 'redis'
       $service       = 'redis'
       $bindir        = '/usr/local/bin'
@@ -23,7 +23,7 @@ class redis::params {
       $logfile       = '/var/log/redis/redis.log'
       $init_template = 'redis.init.erb'
     }
-    'ubuntu', 'debian': {
+    'Debian': {
       $package       = 'redis-server'
       $service       = 'redis-server'
       $bindir        = '/usr/local/bin'
